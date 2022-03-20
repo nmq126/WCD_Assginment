@@ -1,0 +1,35 @@
+﻿@model IEnumerable<AssignmentWCD.Models.Product>
+@{
+    ViewBag.Title = "FindProductByNameAndCategory";
+}
+<div class="container">
+    <div class="row">
+        @if (Model == null)
+        {
+            <h3>No product found!!</h3>
+        }
+        else
+        {
+            foreach (var x in Model)
+            {
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                        <img src="@x.Thumbnail">
+                        <div class="caption">
+                            <h3>@x.Name</h3>
+                            <p><b>Price: </b> @x.Price đ</p>
+                            <p><b>Category: </b> @x.Category.Name</p>
+                            <p><b>Id: </b> @x.Id</p>
+                            <p>
+                                @Html.ActionLink("Add to cart", "AddToCart", "Carts", new { ProductId = @x.Id, ProductName = x.Name, ProductThumbnail = x.Thumbnail, UnitPrice = x.Price }, new { @class = "btn btn-primary" })
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+

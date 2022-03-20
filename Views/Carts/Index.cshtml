@@ -1,0 +1,71 @@
+﻿@model IEnumerable<AssignmentWCD.Models.CartItem>
+
+@{
+    ViewBag.Title = "Your cart";
+}
+
+<h2>Your cart</h2>
+@if (Model == null)
+{
+    <h1>You have no product yet. Go to product and get yourself some!</h1>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductThumbnail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitPrice)
+            </th>
+            <th>Actions</th>
+        </tr>
+
+
+        @foreach (var item in Model)
+        {
+            <form action="@Url.Action("UpdateCart")" method="get">
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductId)
+                </td>
+                <td width="15%">
+                    <img src="@item.ProductThumbnail" class="thumbnail" width="100%" alt="Image" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+
+                    <input type="hidden" name="ProductId" value="@item.ProductId" />
+                    <input type="hidden" name="ProductName" value="@item.ProductName" />
+                    <input type="hidden" name="ProductThumbnail" value="@item.ProductThumbnail" />
+                    <input width="10%" type="number" min="1" step="1" name="Quantity" id="soluongmoi" value="@item.Quantity" />
+
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitPrice.ToString("#,##0").Replace(',', '.') VNĐ)
+                </td>
+                <td>
+                    <button type="submit" onclick="return confirm('Update this product quantity?');" class="btn btn-primary btn-sm">Update</button>
+                    <a href="@Url.Action("RemoveFromCart", new { ProductId = item.ProductId })" onclick="return confirm('Remove this product from your cart?');" class="btn btn-danger btn-sm">Remove</a>
+                </td>
+            </tr>
+            </form>
+        }
+
+    </table>
+    <h3>Total Price: @ViewBag.TotalPrice.ToString("#,##0").Replace(',', '.') VNĐ</h3>
+
+}
